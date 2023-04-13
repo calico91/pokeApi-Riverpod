@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_app/domain/entities/info_pokemones.dart';
 import 'package:riverpod_app/presentation/providers/providers.dart';
+import 'package:riverpod_app/presentation/screens/10_poke_api/informacion_pokemon.dart';
 
 class PokeApi extends ConsumerWidget {
   const PokeApi({super.key});
@@ -22,11 +23,18 @@ class PokeApi extends ConsumerWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
             itemBuilder: (BuildContext context, int i) {
+              List chunks = listaPokemones.results![i].url!.split('/');
+              final id = chunks[6];
               return GestureDetector(
                 onTap: () {
-                  
+                 
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InformacionPokemon(id)));
                 },
-                child: _tarjetaPokemon(listaPokemones: listaPokemones, i: i),
+                child: _tarjetaPokemon(
+                    listaPokemones: listaPokemones, i: i, id: id),
               );
             },
           ),
@@ -47,9 +55,9 @@ class PokeApi extends ConsumerWidget {
 }
 
 Widget _tarjetaPokemon(
-    {required InfoPokemones listaPokemones, required int i}) {
-  List chunks = listaPokemones.results![i].url!.split('/');
-  final id = chunks[6];
+    {required InfoPokemones listaPokemones,
+    required int i,
+    required String id}) {
   return Card(
     child: Stack(children: [
       Image.asset(
