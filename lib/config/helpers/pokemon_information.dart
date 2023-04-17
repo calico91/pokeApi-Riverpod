@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
+import '../../domain/entities/info_pokemon.dart';
 import '../../domain/entities/info_pokemones.dart';
 
 class PokemonInformation {
@@ -28,6 +29,18 @@ class PokemonInformation {
       final listaPokemones = InfoPokemones.fromJson(json.decode(resp.body));
 
       return listaPokemones;
+    } on Exception catch (_) {
+      return Future.error('no se encontraron resultados');
+    }
+  }
+
+  static Future<InfoPokemon> getPokemon(String id) async {
+    try {
+      Uri url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$id');
+      final resp = await http.get(url);
+      final infoPokemon = InfoPokemon.fromJson(json.decode(resp.body));
+
+      return infoPokemon;
     } on Exception catch (_) {
       return Future.error('no se encontraron resultados');
     }

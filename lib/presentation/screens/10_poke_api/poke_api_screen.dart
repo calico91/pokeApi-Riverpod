@@ -14,7 +14,7 @@ class PokeApi extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Future Provider'),
+        title: const Text('Pokemones'),
       ),
       body: Container(
         child: pokemonesAsync.when(

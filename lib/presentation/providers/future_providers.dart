@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_app/config/config.dart';
 
+import '../../domain/entities/info_pokemon.dart';
 import '../../domain/entities/info_pokemones.dart';
 
 final pokemonNameProvider = FutureProvider.autoDispose<String>((ref) async {
@@ -10,6 +11,9 @@ final pokemonNameProvider = FutureProvider.autoDispose<String>((ref) async {
 });
 final infoPokemones = FutureProvider<InfoPokemones>((ref) async {
   return await PokemonInformation.getPokemones();
+});
+final infoPokemon = FutureProvider.family<InfoPokemon, String>((ref, id) async {
+  return await PokemonInformation.getPokemon(id);
 });
 
 final pokemonIdProvider = StateProvider<int>((ref) => 1);
