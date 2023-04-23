@@ -14,7 +14,16 @@ class InformacionPokemon extends ConsumerWidget {
         appBar: AppBar(),
         body: Container(
           child: pokemonAsync.when(
-              data: (infoPokemon) => Text(infoPokemon.forms![0].name!),
+              data: (infoPokemon) => Column(
+                    children: [
+                      Text(infoPokemon.name!.toUpperCase()),
+                      Text(infoPokemon.types![0].type?.name ?? ''),
+                      Image(
+                        image: NetworkImage(
+                            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png'),
+                      ),
+                    ],
+                  ),
               error: (error, stackTrace) => Text(error.toString()),
               loading: () => const Center(child: LinearProgressIndicator())),
         ));
